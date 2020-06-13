@@ -1,0 +1,30 @@
+{
+  "name": "twitter-scraper",
+  "version": "1.0.0",
+  "description": "API para coleta de informações no Twitter",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeduardodomingos/twitter-scrappler-application.git"
+  },
+  "keywords": [
+    "API",
+    "TWITTER",
+    "SCRAPER",
+    "INFORMATION",
+    "POSTS",
+    "CHATBOT"
+  ],
+  "author": "Juan Eduardo Domingos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jeduardodomingos/twitter-scrappler-application/issues"
+  },
+  "homepage": "https://github.com/jeduardodomingos/twitter-scrappler-application#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0"
+  }
+}

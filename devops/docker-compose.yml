@@ -1,0 +1,51 @@
+version: "3.8"
+services:
+    cassandra-node-01:
+        build: .
+        image: cassandra:latest
+        container_name: cassandra-node-01
+        restart: always
+        environment:
+            - CASSANDRA_CLUSTER_NAME=cassandra_cluster 
+            - CASSANDRA_NUM_TOKENS=8 
+            - CASSANDRA_DC=dc1 
+            - CASSANDRA_RACK=rack1 
+            - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+        volumes: 
+            - /var/lib/cassandra/data
+        ports:
+            - "9042:9042"
+        deploy:
+            replicas: 1
+    cassandra-node-02:
+        build: .
+        image: cassandra:latest
+        container_name: cassandra-node-02
+        restart: always
+        environment:
+            - CASSANDRA_SEEDS=cassandra-node-01
+            - CASSANDRA_CLUSTER_NAME=cassandra_cluster 
+            - CASSANDRA_NUM_TOKENS=8 
+            - CASSANDRA_DC=dc1 
+            - CASSANDRA_RACK=rack2
+            - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+        volumes: 
+            - /var/lib/cassandra/data
+        deploy:
+            replicas: 1
+    cassandra-node-03:
+        build: .
+        image: cassandra:latest
+        container_name: cassandra-node-03
+        restart: always
+        environment:
+            - CASSANDRA_SEEDS=cassandra-node-01
+            - CASSANDRA_CLUSTER_NAM= cassandra_cluster 
+            - CASSANDRA_NUM_TOKENS=8 
+            - CASSANDRA_DC=dc1 
+            - CASSANDRA_RACK=rack3 
+            - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+        volumes: 
+            - /var/lib/cassandra/data
+        deploy:
+            replicas: 1
