@@ -1,7 +1,26 @@
-const cassandra = require('cassandra-driver'); \
+const cassandra = require('cassandra-driver'); 
 
-var authProvider = new cassandra.auth.PlainTextAuthProvider('Username', 'Password');
-//Replace PublicIP with the IP addresses of your clusters
-var contactPoints = ['PublicIP','PublicIP','PublicIP’'];
-var client = new cassandra.Client({contactPoints: contactPoints, authProvider: authProvider, keyspace:'grocery'});
- 
+module.exports = class CassandraConnector {
+
+    constructor(username, password, keyspace, hosts){
+        this.username = username;
+        this.password = password;
+        this.keyspace = keyspace;
+        this.hosts = hosts;
+    }
+
+    client() {
+        console.log("Creating cassandra connection client ...");
+        
+        return new cassandra.Client({
+            contactPoints: this.contactPoints, 
+            authProvider: authenticationProvider(), 
+            keyspace: this.keyspace
+        });
+    }
+
+    authenticationProvider() {
+        return new cassandra.auth.PlainTextAuthProvider(this.username, this.password);
+    }
+
+}
