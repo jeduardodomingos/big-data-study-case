@@ -16,9 +16,12 @@ exports.search = async (req, res, next) => {
         const search = await service.searchData(token, tag);
         const searchResponse = await search.json();
 
-         return res.status(200)
-                   .send(service.mapResult(searchResponse, tag));
+        let response = service.mapResult(searchResponse, tag);
 
+        service.saveData(response);
+
+        res.status(200).send(response);
+        
     } catch (err) {
         res.status(500)
            .send({code: 500, message: "An error has ocurred.", details: err});

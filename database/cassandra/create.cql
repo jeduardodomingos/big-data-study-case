@@ -10,4 +10,4 @@ CREATE TYPE IF NOT EXISTS twitter_scraper_space.users(id bigint, name varchar, a
 
 CREATE TYPE IF NOT EXISTS twitter_scraper_space.mentions(id bigint,name varchar);
 
-CREATE TABLE IF NOT EXISTS twitter_scraper_space.tweets (key_tag text, post_content text, tag_composition FROZEN<hashtags>, user FROZEN<users>, favorited Boolean, favouriteds bigint, retweeted Boolean, retweets bigint, language text, source text, mention FROZEN<mentions>, createdAt timestamp, updatedAt timestamp);
+CREATE TABLE IF NOT EXISTS twitter_scraper_space.tweets (id bigint, key_tag varchar, post_content varchar, tag_composition FROZEN<hashtags>, user FROZEN<users>, favorited Boolean, favouriteds bigint, retweeted Boolean, retweets bigint, language varchar, source varchar, mention FROZEN<mentions>, createdAt timestamp, updatedAt timestamp, PRIMARY KEY(id));

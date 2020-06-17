@@ -11,13 +11,15 @@ module.exports = class CassandraConnector {
     }
 
     configure() {
-        const scripts = process.env.CASSANDRA_INTIAL_SCRIPTS;
-        let list = scripts.split("|");
+        const client = this.client();
+        const scripts = process.env.CASSANDRA_INTIAL_SCRIPTS.split("|");
 
-        list.forEach(script => {
-            this.execute(script, {}, () => {});
-            console.log(`Executing initializer script for ${script}`);
+        scripts.forEach(script => {
+            this.execute(client ,script, {}, () => {});
+            console.log(`Executing: ${script}`);
         });
+
+        client.shutdown();
     }
 
     client() {
@@ -33,11 +35,7 @@ module.exports = class CassandraConnector {
         return new cassandra.auth.PlainTextAuthProvider(this.username, this.password);
     }
 
-    execute(command, params, callback) {
-        console.log("Executing cassandra command ...");
-       
-        let client = this.client();
+    execute(client, command, params, callback) {
         client.execute(command, params, {prepare: true}, callback);
-        client.shutdown();
     }
 }

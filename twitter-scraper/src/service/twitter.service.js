@@ -2,14 +2,22 @@
 
 const fetch = require('node-fetch');
 const Bluebird = require('bluebird');
-const http = require('../utils/http-codes.js');
 const CassandraConnector = require('../database/cassandra.connector.js');
+const http = require('../utils/http-codes.js');
 
 fetch.promisse = Bluebird;
 
 const API_HOST = process.env.TWITTER_HOST;
 const AUTHENTICATION_PATH="oauth2/token";
 const SEARCH_PATH="1.1/search/tweets.json";
+
+const cassandra = new CassandraConnector(
+    process.env.CASSANDRA_DATABASE_USERNAME,
+    process.env.CASSANDRA_DATABASE_PASSWORD,
+    process.env.CASSANDRA_DATABASE_KEYSPACE,
+    process.env.CASSANDRA_DATABASE_HOSTS,
+    process.env.CASSANDRA_DATABASE_LOCAL_DATACENTER
+);
 
 exports.authenticate = () => {
     const authenticationPath = `${API_HOST}/${AUTHENTICATION_PATH}?grant_type=client_credentials`;
@@ -46,13 +54,21 @@ exports.searchData = (token, tag) => {
 }
 
 exports.saveData = (content) => {
-    const cassandra = new CassandraConnector(
-        process.env.CASSANDRA_DATABASE_USERNAME,
-        process.env.CASSANDRA_DATABASE_PASSWORD,
-        process.env.CASSANDRA_DATABASE_KEYSPACE,
-        process.env.CASSANDRA_DATABASE_HOSTS
-    );
+    const client = cassandra.client();
+    const script = "INSERT INTO twitter_scraper_space.tweets (id, key_tag, post_content, tag_composition, user, favorited, favouriteds, retweeted, retweets, language, source, mention, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+    
+    console.log("Starting put response content on database process ...");
 
+    content.forEach(item => {
+        const parameters = [item.id, item.filterTag, item.text, item.hashtags, item.user, item.favorited, item.favouriteds, item.retweeted, item.retweets, item.language, item.source, item.mentions, new Date().toISOString(), new Date().toISOString()];
+        cassandra.execute(client, script, parameters, (error, result) => {
+            if(error) {
+                console.log(error);
+            }
+        });
+    });
+
+    client.shutdown();
 }
 
 exports.mapResult = (response, tag) => {
@@ -60,6 +76,7 @@ exports.mapResult = (response, tag) => {
 
     return response.statuses.map(item => {
         return {
+            id: item.id,
             filterTag: tag,
             text: item.text,
             hashtags: item.entities.hashtags,
