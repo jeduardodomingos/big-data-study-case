@@ -1,0 +1,12 @@
+applicationName: "DataProcessService"
+
+spark:
+  master: local[4]
+
+aws:
+  region:
+  acessKey:
+  secretKey:
+  sqs:
+    consumeQueue:
+    produceQueue:

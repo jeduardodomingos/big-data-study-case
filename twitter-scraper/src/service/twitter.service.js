@@ -85,7 +85,7 @@ exports.mapResult = (response, tag) => {
             retweeted: item.retweeted,
             retweets: item.retweet_count,
             language: item.lang,
-            source: item.source,
+            source: item.source.split(">")[1].replace("</a",""),
             mentions: item.entities.user_mentions.map(user => {
                 return {
                     id: user.id,
