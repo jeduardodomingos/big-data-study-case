@@ -1,0 +1,12 @@
+applicationName:
+
+spark:
+  master:
+
+aws:
+  region:
+  acessKey:
+  secretKey:
+  sqs:
+    consumeQueue:
+    produceQueue:
