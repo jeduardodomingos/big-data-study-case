@@ -1,25 +1,25 @@
 package br.com.domingos.juan.model
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import scala.beans.BeanProperty
 
 class ApplicationConfig {
-  @JsonProperty("applicationName") var applicationName: String = ""
-  @JsonProperty("spark") var spark: SparkConfig = new SparkConfig()
-  @JsonProperty("aws") var aws: AwsConfig = new AwsConfig()
+  @BeanProperty var applicationName: String = ""
+  @BeanProperty var spark: SparkConfig = new SparkConfig()
+  @BeanProperty var aws: AwsConfig = new AwsConfig()
 }
 
 class SparkConfig {
-  @JsonProperty("master") var master: String = ""
+  @BeanProperty var master: String = ""
 }
 
 class AwsConfig {
-  @JsonProperty("region") var region: String = ""
-  @JsonProperty("accessKey") var accessKey: String = ""
-  @JsonProperty("secretKey") var secretKey: String = ""
-  @JsonProperty("sqs") var sqs: SqsConfig = new SqsConfig()
+  @BeanProperty var region: String = ""
+  @BeanProperty var accessKey: String = ""
+  @BeanProperty var secretKey: String = ""
+  @BeanProperty var sqs: SqsConfig = new SqsConfig()
 }
 
 class SqsConfig {
-  @JsonProperty("consumeQueue") var receiveQueue: String = ""
-  @JsonProperty("produceQueue") var produceQueue: String = ""
+  @BeanProperty var consumeQueue: String = ""
+  @BeanProperty var produceQueue: String = ""
 }
