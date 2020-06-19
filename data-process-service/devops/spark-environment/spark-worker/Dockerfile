@@ -1,0 +1,16 @@
+FROM spark-base:2.3.1
+
+COPY start-worker-node.sh /
+
+ENV SPARK_HOME=/spark
+ENV SPARK_WORKER_WEBUI_PORT=8081
+ENV SPARK_WORKER_LOG=/spark/logs
+ENV SPARK_MASTER=spark://spark-master-node:7077
+ENV SPARK_WORKER_CORES=1
+ENV SPARK_WORKER_MEMORY=1G
+ENV SPARK_DRIVER_MEMORY=128m
+ENV SPARK_EXECUTOR_MEMORY=256m
+
+EXPOSE 8081
+
+CMD ["/bin/bash", "/start-worker-node.sh"]

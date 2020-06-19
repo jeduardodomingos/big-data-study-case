@@ -8,10 +8,11 @@ object SparkConfigurer {
 
   private val Logger: Logger = LoggerFactory.getLogger(this.getClass)
 
-  def sparkConf(applicationConfig: ApplicationConfig): SparkConf =
+  def sparkConf(applicationConfig: ApplicationConfig): SparkConf = {
     new SparkConf()
       .setAppName(applicationConfig.applicationName)
       .setMaster(applicationConfig.spark.master)
+  }
 
   def configure(applicationConfig: ApplicationConfig): SparkContext = {
     Logger.info("Initializing Spark Context ...")
