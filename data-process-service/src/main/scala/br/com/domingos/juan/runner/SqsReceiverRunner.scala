@@ -1,28 +1,39 @@
-package br.com.domingos.juan.service.stream.runner
+package br.com.domingos.juan.runner
 
 import br.com.domingos.juan.model.StreamParameters
 import br.com.domingos.juan.service.aws.SqsService
 import com.amazonaws.services.sqs.model.{Message, ReceiveMessageRequest}
 import org.slf4j.{Logger, LoggerFactory}
 
-class MessageReceiveRunner(sqsService: SqsService, parameters: StreamParameters, storeCallback: => Unit) extends Runnable {
+import scala.annotation.tailrec
+
+class SqsReceiverRunner(sqsService: SqsService, parameters: StreamParameters, storeCallback: (Message) => Unit) extends Runnable {
 
   private val Logger: Logger = LoggerFactory.getLogger(this.getClass)
 
   def run(): Unit = {
     Logger.info("Starting message receiver thread")
+    receiveMessages()
   }
 
-  private def receiveMessages() = {
+  private def receiveMessages(): Unit = {
     Logger.info(s"Getting messages from ${parameters.sourceQueue}")
 
+    val StartIndex: Int = 0
     val ReceiveRequest: ReceiveMessageRequest = buildReceiveMessageRequest
-
     val StreamMessages: List[Message] = sqsService.getMessages(ReceiveRequest)
 
-    StreamMessages.
+    @tailrec
+    def iterate(index: Int, messages: List[Message]): Unit = {
+        Logger.info(s"Getting ${(index + 1).toString} of ${messages.size} messages")
 
-    storeCallback(message)
+        if(index < messages.size) {
+          storeCallback(messages(index))
+          iterate(index + 1, messages)
+        }
+    }
+
+    iterate(StartIndex, StreamMessages)
   }
 
   private def buildReceiveMessageRequest: ReceiveMessageRequest = {

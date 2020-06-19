@@ -12,6 +12,7 @@ object SparkConfigurer {
     new SparkConf()
       .setAppName(applicationConfig.applicationName)
       .setMaster(applicationConfig.spark.master)
+      .set("spark.cassandra.connection.host", applicationConfig.cassandra.host)
   }
 
   def configure(applicationConfig: ApplicationConfig): SparkContext = {
