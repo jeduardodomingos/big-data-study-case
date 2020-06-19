@@ -1,4 +1,4 @@
-package br.com.domingos.juan.service
+package br.com.domingos.juan.service.aws
 
 import br.com.domingos.juan.model.AwsConfig
 import com.amazonaws.auth.{AWSStaticCredentialsProvider, BasicAWSCredentials}

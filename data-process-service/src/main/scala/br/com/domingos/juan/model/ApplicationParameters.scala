@@ -10,6 +10,7 @@ class ApplicationConfig {
 
 class SparkConfig {
   @BeanProperty var master: String = ""
+  @BeanProperty var streamInterval: Int = 0
 }
 
 class AwsConfig {
