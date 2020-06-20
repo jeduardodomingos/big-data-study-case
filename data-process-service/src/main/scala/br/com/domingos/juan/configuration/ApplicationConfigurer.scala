@@ -1,6 +1,6 @@
 package br.com.domingos.juan.configuration
 
-import br.com.domingos.juan.Utils.Utils.getResource
+import br.com.domingos.juan.utils.Utils.getResource
 import br.com.domingos.juan.model.ApplicationConfig
 import org.slf4j.{Logger, LoggerFactory}
 import org.yaml.snakeyaml.Yaml

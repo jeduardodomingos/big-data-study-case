@@ -1,12 +1,13 @@
 package br.com.domingos.juan.service.aws
 
-import br.com.domingos.juan.model.AwsConfig
+import br.com.domingos.juan.model.ProcessInput
 import com.amazonaws.services.sqs.model.{Message, ReceiveMessageRequest, SendMessageResult}
 import com.amazonaws.services.sqs.{AmazonSQS, AmazonSQSClientBuilder}
 import org.slf4j.{Logger, LoggerFactory}
+
 import scala.collection.JavaConverters._
 
-class SqsService(awsConfig: AwsConfig) extends AwsService(awsConfig) {
+class SqsService(processInput: ProcessInput) extends AwsService(processInput.awsConfig) {
 
   private val Logger: Logger = LoggerFactory.getLogger(this.getClass);
 
@@ -16,7 +17,7 @@ class SqsService(awsConfig: AwsConfig) extends AwsService(awsConfig) {
     AmazonSQSClientBuilder
       .standard()
       .withCredentials(this.credentialProvider)
-      .withRegion(this.awsConfig.region)
+      .withRegion(this.processInput.awsConfig.region)
       .build()
   }
 

@@ -1,12 +1,22 @@
 applicationName:
 
 spark:
+  streamInterval:
   master:
+
+cassandra:
+  host:
+  port:
+  keyspace:
 
 aws:
   region:
-  acessKey:
+  accessKey:
   secretKey:
   sqs:
     consumeQueue:
+      address:
+      maxMessages:
     produceQueue:
+      address:
+      maxMessages:

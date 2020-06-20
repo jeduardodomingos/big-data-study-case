@@ -1,4 +1,4 @@
-package br.com.domingos.juan.Utils
+package br.com.domingos.juan.utils
 
 import java.io.InputStream
 
