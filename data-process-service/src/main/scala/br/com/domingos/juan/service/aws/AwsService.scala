@@ -11,7 +11,7 @@ abstract class AwsService(processInput: ProcessInput) {
 
   private def credentials: BasicAWSCredentials = {
     Logger.info("Getting AWS credentials ...")
-    new BasicAWSCredentials(processInput.awsConfig.accessKey, processInput.awsConfig.secretKey)
+    new BasicAWSCredentials(processInput.configuration.aws.accessKey, processInput.configuration.aws.secretKey)
   }
 
   def credentialProvider: AWSStaticCredentialsProvider = {

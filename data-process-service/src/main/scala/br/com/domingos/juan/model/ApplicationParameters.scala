@@ -1,6 +1,6 @@
 package br.com.domingos.juan.model
 
-import com.datastax.oss.driver.shaded.fasterxml.jackson.databind.BeanProperty
+import scala.beans.BeanProperty
 
 class ApplicationConfig {
   @BeanProperty var applicationName: String = ""
@@ -30,11 +30,11 @@ class AwsConfig {
 }
 
 class SqsConfig {
-  @BeanProperty var consumeQueue: Queue = new Queue()
-  @BeanProperty var produceQueue: Queue = new Queue()
+  @BeanProperty var consumeQueue: SqsQueue = new SqsQueue()
+  @BeanProperty var produceQueue: SqsQueue = new SqsQueue()
 }
 
-class Queue {
+class SqsQueue {
   @BeanProperty var address: String = ""
   @BeanProperty var maxMessages: Int = 0
 }

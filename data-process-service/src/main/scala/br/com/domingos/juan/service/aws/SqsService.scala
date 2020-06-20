@@ -7,7 +7,7 @@ import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters._
 
-class SqsService(processInput: ProcessInput) extends AwsService(processInput.awsConfig) {
+class SqsService(processInput: ProcessInput) extends AwsService(processInput) {
 
   private val Logger: Logger = LoggerFactory.getLogger(this.getClass);
 
@@ -17,7 +17,7 @@ class SqsService(processInput: ProcessInput) extends AwsService(processInput.aws
     AmazonSQSClientBuilder
       .standard()
       .withCredentials(this.credentialProvider)
-      .withRegion(this.processInput.awsConfig.region)
+      .withRegion(this.processInput.configuration.aws.region)
       .build()
   }
 

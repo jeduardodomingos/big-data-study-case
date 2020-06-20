@@ -12,16 +12,16 @@ object DataProcessService {
 
   private val Logger: Logger = LoggerFactory.getLogger(this.getClass)
 
-  def apply[T](processInput: ProcessInput, receiver: MessageReceiverStreamService[T]): Unit = {
+  def apply(processInput: ProcessInput, receiver: MessageReceiverStreamService) = {
       receiver.stream(process)
   }
 
-  def process(processInput: ProcessInput, message: Message) = {
+  def process(processInput: ProcessInput, message: Message):Unit = {
     val DeserializeMessage: EventMessage = deserialize(message.getBody, classOf[EventMessage])
 
     Logger.info(s"Starting process for tag ${DeserializeMessage.keyTag}")
 
-    val df = getData(processInput.sparkSession, processInput.configuration, DeserializeMessage.keyTag)
+   // val df = getData(processInput.sparkSession, processInput.configuration, DeserializeMessage.keyTag)
   }
 
   def getData(sparkSession: SparkSession, applicationConfig: ApplicationConfig, tag: String): DataFrame = {
