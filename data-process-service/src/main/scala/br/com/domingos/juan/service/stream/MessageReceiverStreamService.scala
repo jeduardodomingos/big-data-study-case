@@ -1,29 +1,31 @@
 package br.com.domingos.juan.service.stream
 
-import br.com.domingos.juan.model.SparkConfig
-import org.apache.spark.SparkContext
+import br.com.domingos.juan.model.ProcessInput
+import com.amazonaws.services.sqs.model.Message
 import org.apache.spark.streaming.receiver.Receiver
 import org.apache.spark.streaming.{Milliseconds, StreamingContext}
 import org.slf4j.{Logger, LoggerFactory}
 
-class MessageReceiverStreamService[T](,
-                                      sparkContext: SparkContext,
-                                      receiver: Receiver[T],
-                                      processCallback: (Unit) => Unit) {
+class MessageReceiverStreamService[T](processInput: ProcessInput, receiver: Receiver[T]) {
 
   private val Logger: Logger = LoggerFactory.getLogger(this.getClass)
 
-  def stream(): Unit = {
+  def stream(processCallback: (ProcessInput, Message) => Unit): Unit = {
     Logger.info("Starting message streaming")
 
-    streamingContext.receiverStream(receiver).foreachRDD(message => {
-      message.collect()
-        .foreach(_ => processCallback())
+    streamingContext.receiverStream(receiver).foreachRDD(messageRDD => {
+      messageRDD.collect()
+        .foreach(_ => processCallback(processInput, _))
     })
   }
 
   private def streamingContext: StreamingContext = {
-    new StreamingContext(sparkContext, Milliseconds(sparkConfig.streamInterval))
+    Logger.info("Getting streaming context")
+
+    new StreamingContext(
+      processInput.sparkSession.sparkContext,
+      Milliseconds(processInput.configuration.spark.streamInterval)
+    )
   }
 
 }

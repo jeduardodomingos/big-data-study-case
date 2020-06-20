@@ -2,8 +2,6 @@ package br.com.domingos.juan.model
 
 import com.datastax.oss.driver.shaded.fasterxml.jackson.databind.BeanProperty
 
-import scala.beans.BeanProperty
-
 class ApplicationConfig {
   @BeanProperty var applicationName: String = ""
   @BeanProperty var spark: SparkConfig = new SparkConfig()
@@ -20,6 +18,8 @@ class CassandraConfig {
   @BeanProperty var host: String = ""
   @BeanProperty var port: String = ""
   @BeanProperty var keyspace: String = ""
+  @BeanProperty var username: String = ""
+  @BeanProperty var password: String = ""
 }
 
 class AwsConfig {

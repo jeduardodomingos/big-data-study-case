@@ -16,15 +16,20 @@ object ApplicationStarter extends App {
 
   override def main(args: Array[String]) = {
     Logger.info("Initializing Data Process Service")
-
-    val Configuration: ApplicationConfig = ApplicationConfigurer.configure(args)
-    val ApplicationSparkSession: SparkSession = SparkConfigurer.configure(Configuration)
-    val Input = ProcessInput(ApplicationSparkSession, Configuration)
-
-    val SqsServiceInstance = new SqsService(Input)
+    val Input = processInput
+    val SqsServiceInstance = new SqsService(processInput)
     val SqsStreamReceiverInstance: SqsStreamReceiver = new SqsStreamReceiver(streamParameters(Input), SqsServiceInstance)
 
     DataProcessService.apply(Input, SqsStreamReceiverInstance[Message])[Message]
+  }
+
+  private def processInput: ProcessInput = {
+    Logger.info("Initializing process input")
+
+    val Configuration: ApplicationConfig = ApplicationConfigurer.configure(args)
+    val ApplicationSparkSession: SparkSession = SparkConfigurer.configure(Configuration)
+
+    ProcessInput(ApplicationSparkSession, Configuration)
   }
 
   private def streamParameters(processInput: ProcessInput): StreamParameters = {

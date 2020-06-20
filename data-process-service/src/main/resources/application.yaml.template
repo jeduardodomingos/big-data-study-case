@@ -8,6 +8,8 @@ cassandra:
   host:
   port:
   keyspace:
+  username:
+  password:
 
 aws:
   region:
