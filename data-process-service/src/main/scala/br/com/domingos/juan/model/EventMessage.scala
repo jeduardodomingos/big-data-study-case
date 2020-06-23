@@ -1,5 +1,5 @@
 package br.com.domingos.juan.model
 
-case class ?(uuid: String,
+case class EventMessage(uuid: String,
                         keyTag: String,
                         source: String) extends Serializable {}
