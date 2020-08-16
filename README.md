@@ -1,9 +1,8 @@
 ## TWITTER DATA EXTRACTOR APPLICATION
 
-> 
- - Created By: **Juan Eduardo Domingos**
- - Scope: **POC and Study**
- - Tags: **Big Data, Spark, Dashboard, Twitter, HTTP, Node.JS, ETL, ELT, Data Extraction**
+>Created By: **Juan Eduardo Domingos**
+Scope: **POC and Study**
+Tags: **Big Data, Spark, Dashboard, Twitter, HTTP, Node.JS, ETL, ELT, Data Extraction**
 
 ## Abstract
 That application aim extract data of posts from Twitter public API and based on this data, build a dashboard with information such posts, what they represent and their relevance.
@@ -19,3 +18,25 @@ That application aim extract data of posts from Twitter public API and based on 
 ## Application Architeture
 
 ![Application Architeture](https://raw.githubusercontent.com/jeduardodomingos/big-data-study-case/master/architeture/main-structure.png)
+
+# Let's Run
+To run this application you need follow that steps:
+
+ 1. Build Docker Images
+ 2. Start Docker Containers (Docker Compose)
+
+## Build and Deploy Docker  Images
+The first step to execute this application is a docker images build and the their deploy, below we can se the docker images which you will need build:
+
+	Obs: You must be in the project root folder
+
+ 1. Build Cassandra Docker Image:
+ 
+	  Obs:   This compose.yaml file, I only included the basic settings of the cassandra database, if you want to run this an instance with specific parameters or for specific scenarios, you must change some parameters and settings in the compose.yaml file.
+	  
+		cd ./devops/cassandra-database-environment
+		docker-compose up
+		
+2. Build Spark Environment Images:
+
+    Obs: For **SPARK** environment you must pay more atention, because in all the cases you need change some parameters and configurations in the images and compose.yaml files
