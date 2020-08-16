@@ -5,5 +5,5 @@ Este conjunto de aplicação tem como objetivo realizar a extração de dados a 
 
 # Tecnologias Utilizadas
 
- 1. Node.JS: Aplicação responsável pela extração do Raw Data a partir da API do Twitter
- 2. Apache Cassandra: Banco de dados não relacional onde serão armazenados os dados Raw e posteriormente os dados refinados)
+ 1. **Node.JS**: Aplicação responsável pela extração do raw Data a partir da API do Twitter
+ 2. **Apache Cassandra**: Banco de dados não relacional onde serão armazenados os dados raw e posteriormente os dados refinados)
