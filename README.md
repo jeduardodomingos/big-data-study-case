@@ -39,4 +39,9 @@ The first step to execute this application is a docker images build and the thei
 		
 2. Build Spark Environment Images:
 
-    Obs: For **SPARK** environment you must pay more atention, because in all the cases you need change some parameters and configurations in the images and compose.yaml files
+    Obs: For **SPARK** environment you must pay more atention, because in all the cases you need change some parameters and configurations in `spark-worker-env.sh`  file.
+
+		cd ..
+		cd ./spark-environment
+		sh ./build-image.sh
+		docker-compose up
