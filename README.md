@@ -28,7 +28,7 @@ To run this application you need follow that steps:
 ## Build and Deploy Docker  Images
 The first step to execute this application is a docker images build and the their deploy, below we can se the docker images which you will need build:
 
-	Obs: You must be in the project root folder
+Obs: You must be in the project root folder
 
  1. Build Cassandra Docker Image:
  
@@ -45,3 +45,28 @@ The first step to execute this application is a docker images build and the thei
 		cd ./spark-environment
 		sh ./build-image.sh
 		docker-compose up
+
+## Setup Cassandra Database
+Below we have an example of Cassandra Database Setup Script, remember, that script is a basic example to setup cassandra database, if you need specific structures or scenários, you must change the script like yout preferences and necessities.
+
+		-- Setup database security
+		CREATE ROLE tsa WITH PASSWORD =  '1234'  AND SUPERUSER = true AND LOGIN = true;
+		ALTER ROLE cassandra WITH PASSWORD='1234'AND SUPERUSER=false;
+		
+		-- Keyspace creation
+		CREATE KEYSPACE IF NOT EXISTS twitter_scraper_space WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 3};
+
+		-- Custom types creation
+		CREATE  TYPE  IF NOT EXISTS twitter_scraper_space.hashtags(content varchar,indices LIST<bigint>);
+		CREATE  TYPE  IF NOT EXISTS twitter_scraper_space.users(id bigint, name varchar, address varchar, description varchar, url varchar, followers bigint, friends bigint);
+		CREATE  TYPE  IF NOT EXISTS twitter_scraper_space.mentions(id bigint,name varchar);
+	
+		-- Create table to store raw data
+		CREATE TABLE IF NOT EXISTS twitter_scraper_space.tweets (id bigint, key_tag varchar, post_content varchar, tag_composition FROZEN<hashtags>, user FROZEN<users>, favorited Boolean, favouriteds bigint, retweeted Boolean, retweets bigint, language varchar, source varchar, mention FROZEN<mentions>, createdAt timestamp, updatedAt timestamp, PRIMARY KEY(id));
+		
+
+## Starting The Applications
+
+ 1. **twitter-scrapper-service** (Node.JS application):
+ 
+	 For this application you need create a environment file with application parameters, such as database-link, twitter api credentials and some others, in the root folder of that application you can find a environment file template
